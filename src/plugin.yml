@@ -1,0 +1,11 @@
+name: XPFlyX
+main: xyz.derkades.xpflyx.Main
+version: 1.0.0
+author: Derkades
+description: Allows players to fly at the cost of XP points
+
+commands:
+  xpfly:
+    description: Toggles XP flight
+    usage: /<command>
+    aliases: [xpflyx]
