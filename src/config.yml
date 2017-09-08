@@ -1,10 +1,14 @@
-#How much XP should be removed every tick (1 second = 20 ticks)
-#Must be between 0.0 and 1.0
+# How much XP should be removed every tick (1 second = 20 ticks)
+# Must be between 0.0 and 1.0
 xp-cost: 0.008
+
+# Automatically disable flying when the player is on the ground.
+auto-disable: false
 
 messages:
   ran-out-of-xp: '&bYou can no longer fly because you are out of xp'
   not-a-player: '&cYou must be a player in order to execute this command.'
+  auto-disabled: '&cFlying has been disabled because you were on the ground.'
   command-flight-disabled: '&bXP flight has been disabled'
   command-flight-enabled: '&bXP flight has been enabled.'
   command-not-enough-xp: '&cYou do not have enough XP to start flying.'

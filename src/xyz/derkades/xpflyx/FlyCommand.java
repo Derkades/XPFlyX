@@ -20,29 +20,19 @@ public class FlyCommand implements CommandExecutor {
 		
 		Player player = (Player) sender;
 		
-		if (Main.XP_FLY_PLAYERS.contains(player.getUniqueId())){
-			//The player is currently flying
-			
-			player.setAllowFlight(false);
-			
-			Main.XP_FLY_PLAYERS.remove(player.getUniqueId());
-			
+		if (Main.isFlying(player)){
+			Main.setFlightEnabled(player, false);
 			player.sendMessage(Main.COMMAND_FLIGHT_DISABLED);
-			return true;
 		} else {
-			//The player is not flying
-			
 			if (player.getLevel() == 0 && player.getExp() < Main.XP_COST){
 				player.sendMessage(Main.COMMAND_NOT_ENOUGH_XP);
-				return true;
 			} else {
-				Main.XP_FLY_PLAYERS.add(player.getUniqueId());
-				player.setAllowFlight(true);
-				player.setFlying(true);
+				Main.setFlightEnabled(player, true);
 				player.sendMessage(Main.COMMAND_FLIGHT_ENABLED);
-				return true;
 			}
 		}
+		
+		return true;
 		
 	}
 
