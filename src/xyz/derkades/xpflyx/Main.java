@@ -1,6 +1,7 @@
 package xyz.derkades.xpflyx;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -12,18 +13,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Main extends JavaPlugin {
 	
-	public static float XP_COST;
-	
-	public static boolean AUTO_DISABLE;
-	
-	public static String RAN_OUT_OF_XP;
-	public static String NOT_A_PLAYER;
-	public static String AUTO_DISABLED;
-	public static String COMMAND_FLIGHT_DISABLED;
-	public static String COMMAND_FLIGHT_ENABLED;
-	public static String COMMAND_NOT_ENOUGH_XP;
+	static float XP_COST;
+	static boolean AUTO_DISABLE;
+	static boolean ENABLE_PERMISSION;
+	static String RAN_OUT_OF_XP;
+	static String NOT_A_PLAYER;
+	static String AUTO_DISABLED;
+	static String COMMAND_FLIGHT_DISABLED;
+	static String COMMAND_FLIGHT_ENABLED;
+	static String COMMAND_NOT_ENOUGH_XP;
+	static String COMMAND_NO_PERMISSION;
 
-	private static JavaPlugin plugin;
+	static JavaPlugin plugin;
 	
 	@Override
 	public void onEnable(){
@@ -33,15 +34,16 @@ public class Main extends JavaPlugin {
 		super.saveConfig();
 		
 		XP_COST = (float) getConfig().getDouble("xp-cost");
-		
 		AUTO_DISABLE = getConfig().getBoolean("auto-disable", false);
+		ENABLE_PERMISSION = getConfig().getBoolean("auto-disable", false);
 		
-		RAN_OUT_OF_XP = colors(getConfig().getString("messages.ran-out-of-xp", "&bYou can no longer fly because you are out of xp."));
-		NOT_A_PLAYER = colors(getConfig().getString("messages.not-a-player", "&cYou must be a player in order to execute this command."));
-		AUTO_DISABLED = colors(getConfig().getString("messages.auto-disabled", "&cFlying has been disabled because you were on the ground."));
-		COMMAND_FLIGHT_DISABLED = colors(getConfig().getString("messages.command-flight-disabled", "&bXP flight has been disabled."));
-		COMMAND_FLIGHT_ENABLED = colors(getConfig().getString("messages.command-flight-enabled", "&bXP flight has been enabled."));
-		COMMAND_NOT_ENOUGH_XP = colors(getConfig().getString("messages.command-not-enough-xp", "&cYou do not have enough XP to start flying."));
+		RAN_OUT_OF_XP = message("messages.ran-out-of-xp", "&bYou can no longer fly because you are out of xp.");
+		NOT_A_PLAYER = message("messages.not-a-player", "&cYou must be a player in order to execute this command.");
+		AUTO_DISABLED = message("messages.auto-disabled", "&cFlying has been disabled because you were on the ground.");
+		COMMAND_FLIGHT_DISABLED = message("messages.command-flight-disabled", "&bXP flight has been disabled.");
+		COMMAND_FLIGHT_ENABLED = message("messages.command-flight-enabled", "&bXP flight has been enabled.");
+		COMMAND_NOT_ENOUGH_XP = message("messages.command-not-enough-xp", "&cYou do not have enough XP to start flying.");
+		COMMAND_NO_PERMISSION = message("messages.command-no-permission", "&cYou do not have permission to use this command.");
 		
 		new RemoveExpTask().runTaskTimer(this, 1, 1);
 		
@@ -50,35 +52,40 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onDisable(){
-		for (UUID uuid: XP_FLY_PLAYERS){
-			OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
+		for (final UUID uuid : XP_FLY_PLAYERS){
+			final OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
 			if (offline.isOnline()){
-				Player player = (Player) offline;
+				final Player player = (Player) offline;
 				player.setAllowFlight(false);
 			}
 		}
 		XP_FLY_PLAYERS.clear();
 	}
 	
-	private static String colors(String string){
+	private String message(final String path, final String def) {
+		return colors(getConfig().getString(path, def));
+	}
+	
+	private static String colors(final String string){
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
 	
-	private static final ArrayList<UUID> XP_FLY_PLAYERS = new ArrayList<>();
+	private static final Set<UUID> XP_FLY_PLAYERS = new HashSet<>();
 	
-	public static void setFlightEnabled(Player player, boolean flight) {
+	public static void setFlight(final Player player, final boolean flight) {
 		if (flight) {
-			if (!XP_FLY_PLAYERS.contains(player.getUniqueId())) XP_FLY_PLAYERS.add(player.getUniqueId());
+			XP_FLY_PLAYERS.add(player.getUniqueId());
 			player.setAllowFlight(true);
 			player.setFlying(true);
 			
 			if (AUTO_DISABLE) {
 				new BukkitRunnable() {
+					@Override
 					public void run() {
 						if (!player.isFlying()) {
 							// Player is no longer flying, disable flight.
 							this.cancel();
-							setFlightEnabled(player, false);
+							setFlight(player, false);
 							player.sendMessage(AUTO_DISABLED);
 						}
 					}
@@ -90,7 +97,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public static boolean isFlying(Player player) {
+	public static boolean isFlying(final Player player) {
 		return XP_FLY_PLAYERS.contains(player.getUniqueId());
 	}
 	
