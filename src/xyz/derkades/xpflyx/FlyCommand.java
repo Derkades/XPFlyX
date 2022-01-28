@@ -7,6 +7,12 @@ import org.bukkit.entity.Player;
 
 public class FlyCommand implements CommandExecutor {
 
+	private final Main main;
+
+	FlyCommand(final Main main) {
+		this.main = main;
+	}
+
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
 		if (args.length > 0){
@@ -25,14 +31,14 @@ public class FlyCommand implements CommandExecutor {
 		
 		final Player player = (Player) sender;
 		
-		if (Main.isFlying(player)){
-			Main.setFlight(player, false);
+		if (main.isFlying(player)){
+			main.setFlight(player, false);
 			player.sendMessage(Main.COMMAND_FLIGHT_DISABLED);
 		} else {
 			if (player.getLevel() == 0 && player.getExp() < Main.XP_COST){
 				player.sendMessage(Main.COMMAND_NOT_ENOUGH_XP);
 			} else {
-				Main.setFlight(player, true);
+				main.setFlight(player, true);
 				player.sendMessage(Main.COMMAND_FLIGHT_ENABLED);
 			}
 		}

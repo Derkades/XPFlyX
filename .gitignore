@@ -1,4 +1,7 @@
-/bin/
+# IntelliJ IDEA
+.idea
+out/
+*.iml
 
 # Windows image file caches
 Thumbs.db

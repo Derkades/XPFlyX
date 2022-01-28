@@ -6,7 +6,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,11 +29,10 @@ public class Main extends JavaPlugin {
 	static JavaPlugin plugin;
 	
 	@Override
-	public void onEnable(){
+	public void onEnable() {
 		plugin = this;
 		
 		super.saveDefaultConfig();
-		super.saveConfig();
 		
 		XP_COST = (float) getConfig().getDouble("xp-cost");
 		AUTO_DISABLE = getConfig().getBoolean("auto-disable", false);
@@ -45,13 +46,13 @@ public class Main extends JavaPlugin {
 		COMMAND_NOT_ENOUGH_XP = message("messages.command-not-enough-xp", "&cYou do not have enough XP to start flying.");
 		COMMAND_NO_PERMISSION = message("messages.command-no-permission", "&cYou do not have permission to use this command.");
 		
-		new RemoveExpTask().runTaskTimer(this, 1, 1);
+		new RemoveExpTask(this).runTaskTimer(this, 1, 1);
 		
-		getCommand("xpfly").setExecutor(new FlyCommand());
+		getCommand("xpfly").setExecutor(new FlyCommand(this));
 	}
 	
 	@Override
-	public void onDisable(){
+	public void onDisable() {
 		for (final UUID uuid : XP_FLY_PLAYERS){
 			final OfflinePlayer offline = Bukkit.getOfflinePlayer(uuid);
 			if (offline.isOnline()){
@@ -66,13 +67,13 @@ public class Main extends JavaPlugin {
 		return colors(getConfig().getString(path, def));
 	}
 	
-	private static String colors(final String string){
+	private static String colors(final String string) {
 		return ChatColor.translateAlternateColorCodes('&', string);
 	}
 	
-	private static final Set<UUID> XP_FLY_PLAYERS = new HashSet<>();
+	private final Set<UUID> XP_FLY_PLAYERS = new HashSet<>();
 	
-	public static void setFlight(final Player player, final boolean flight) {
+	public void setFlight(final Player player, final boolean flight) {
 		if (flight) {
 			XP_FLY_PLAYERS.add(player.getUniqueId());
 			player.setAllowFlight(true);
@@ -97,7 +98,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public static boolean isFlying(final Player player) {
+	public boolean isFlying(final Player player) {
 		return XP_FLY_PLAYERS.contains(player.getUniqueId());
 	}
 	
