@@ -1,6 +1,6 @@
 name: XPFlyX
-main: xyz.derkades.xpflyx.Main
-version: 1.2.1
+main: nl.rkslot.xpflyx.Main
+version: '@project.version@'
 author: Derkades
 description: Allows players to fly at the cost of XP points
 
