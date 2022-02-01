@@ -31,14 +31,14 @@ public class FlyCommand implements CommandExecutor {
 		
 		final Player player = (Player) sender;
 		
-		if (main.isFlying(player)){
-			main.setFlight(player, false);
+		if (main.isXpFlyEnabled(player)){
+			main.setXpFlyEnabled(player, false);
 			player.sendMessage(Main.COMMAND_FLIGHT_DISABLED);
 		} else {
 			if (player.getLevel() == 0 && player.getExp() < Main.XP_COST){
 				player.sendMessage(Main.COMMAND_NOT_ENOUGH_XP);
 			} else {
-				main.setFlight(player, true);
+				main.setXpFlyEnabled(player, true);
 				player.sendMessage(Main.COMMAND_FLIGHT_ENABLED);
 			}
 		}

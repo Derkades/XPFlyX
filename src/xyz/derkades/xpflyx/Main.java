@@ -6,12 +6,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class Main extends JavaPlugin {
 	
@@ -73,32 +70,17 @@ public class Main extends JavaPlugin {
 	
 	private final Set<UUID> XP_FLY_PLAYERS = new HashSet<>();
 	
-	public void setFlight(final Player player, final boolean flight) {
+	public void setXpFlyEnabled(final Player player, final boolean flight) {
 		if (flight) {
 			XP_FLY_PLAYERS.add(player.getUniqueId());
 			player.setAllowFlight(true);
-			player.setFlying(true);
-			
-			if (AUTO_DISABLE) {
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						if (!player.isFlying()) {
-							// Player is no longer flying, disable flight.
-							this.cancel();
-							setFlight(player, false);
-							player.sendMessage(AUTO_DISABLED);
-						}
-					}
-				}.runTaskTimer(plugin, 5*20, 10);
-			}
 		} else {
 			player.setAllowFlight(false);
 			XP_FLY_PLAYERS.remove(player.getUniqueId());
 		}
 	}
 	
-	public boolean isFlying(final Player player) {
+	public boolean isXpFlyEnabled(final Player player) {
 		return XP_FLY_PLAYERS.contains(player.getUniqueId());
 	}
 	
