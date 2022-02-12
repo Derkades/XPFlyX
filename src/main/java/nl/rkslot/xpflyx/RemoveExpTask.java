@@ -1,4 +1,4 @@
-package nl.rkslot.xpyflyx;
+package nl.rkslot.xpflyx;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

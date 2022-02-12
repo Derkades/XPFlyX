@@ -1,4 +1,4 @@
-package nl.rkslot.xpyflyx;
+package nl.rkslot.xpflyx;
 
 import java.util.HashSet;
 import java.util.Set;

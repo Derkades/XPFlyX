@@ -1,4 +1,4 @@
-package nl.rkslot.xpyflyx;
+package nl.rkslot.xpflyx;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
