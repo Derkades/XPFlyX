@@ -23,17 +23,17 @@ public class RemoveExpTask extends BukkitRunnable {
 			if (player.getLevel() == 0 && currentProgress < Main.XP_COST){
 				player.sendMessage(Main.RAN_OUT_OF_XP);
 				main.setXpFlyEnabled(player, false);
-				if (main.getConfig().getBoolean("disable-fall-damage", true)) {
-					new BukkitRunnable() {
-						public void run() {
-							// Keep resetting fall distance while player is in air
-							player.setFallDistance(0);
-							if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-								this.cancel();
-							}
-						}
-					}.runTaskTimer(main, 1, 1);
-				}
+//				if (main.getConfig().getBoolean("disable-fall-damage", true)) {
+//					new BukkitRunnable() {
+//						public void run() {
+//							// Keep resetting fall distance while player is in air
+//							player.setFallDistance(0);
+//							if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
+//								this.cancel();
+//							}
+//						}
+//					}.runTaskTimer(main, 1, 1);
+//				}
 				return;
 			}
 

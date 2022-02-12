@@ -5,9 +5,6 @@ xp-cost: 0.008
 # Require permission xpflyx.fly to use /xpfly
 enable-permission: false
 
-# Prevent players from taking fall damage when they fall after flight turns off.
-disable-fall-damage: true
-
 messages:
   ran-out-of-xp: '&bYou can no longer fly because you are out of xp'
   not-a-player: '&cYou must be a player in order to execute this command.'
