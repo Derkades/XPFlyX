@@ -17,7 +17,6 @@ public class Main extends JavaPlugin {
 	static boolean ENABLE_PERMISSION;
 	static String RAN_OUT_OF_XP;
 	static String NOT_A_PLAYER;
-	static String AUTO_DISABLED;
 	static String COMMAND_FLIGHT_DISABLED;
 	static String COMMAND_FLIGHT_ENABLED;
 	static String COMMAND_NOT_ENOUGH_XP;
@@ -37,7 +36,6 @@ public class Main extends JavaPlugin {
 		
 		RAN_OUT_OF_XP = message("messages.ran-out-of-xp", "&bYou can no longer fly because you are out of xp.");
 		NOT_A_PLAYER = message("messages.not-a-player", "&cYou must be a player in order to execute this command.");
-		AUTO_DISABLED = message("messages.auto-disabled", "&cFlying has been disabled because you were on the ground.");
 		COMMAND_FLIGHT_DISABLED = message("messages.command-flight-disabled", "&bXP flight has been disabled.");
 		COMMAND_FLIGHT_ENABLED = message("messages.command-flight-enabled", "&bXP flight has been enabled.");
 		COMMAND_NOT_ENOUGH_XP = message("messages.command-not-enough-xp", "&cYou do not have enough XP to start flying.");

@@ -37,20 +37,15 @@ public class RemoveExpTask extends BukkitRunnable {
 				return;
 			}
 
-			if (main.getConfig().getBoolean("auto-disable") &&
-					!player.isFlying()) {
-				player.sendMessage(Main.AUTO_DISABLED);
-				main.setXpFlyEnabled(player, false);
-				return;
-			}
-			
-			final float newProgress = currentProgress - Main.XP_COST;
-			
-			if (newProgress < 0) {
-				player.setLevel(player.getLevel() - 1);
-				player.setExp(1.0f + newProgress);
-			} else {
-				player.setExp(newProgress);
+			if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
+				final float newProgress = currentProgress - Main.XP_COST;
+
+				if (newProgress < 0) {
+					player.setLevel(player.getLevel() - 1);
+					player.setExp(1.0f + newProgress);
+				} else {
+					player.setExp(newProgress);
+				}
 			}
 		});
 	}
