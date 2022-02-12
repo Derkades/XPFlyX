@@ -37,7 +37,7 @@ public class RemoveExpTask extends BukkitRunnable {
 				return;
 			}
 
-			if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
+			if (player.isFlying()) {
 				final float newProgress = currentProgress - Main.XP_COST;
 
 				if (newProgress < 0) {
